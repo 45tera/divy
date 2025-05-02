@@ -6,4 +6,4 @@ A cross platform app for splitting costs!
 
 ## Getting Started
 
-In terminal, run flutter run
+In terminal, run ```flutter run```
