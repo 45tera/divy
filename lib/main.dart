@@ -1,3 +1,5 @@
+import 'package:divy/PreviousReceiptList.dart';
+import 'package:divy/ScannerScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +16,14 @@ class MyApp extends StatelessWidget {
       title: 'Divy',
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Demo'),
+      initialRoute: '/',
+      routes:{
+        '/Scanner': (context) => ScannerScreen(),
+        '/ReceiptList': (context) => PreviousReceiptList()
+
+      },
+
     );
   }
 }
@@ -43,12 +52,18 @@ class _MyHomePageState extends State<MyHomePage> {
     const String bubble1 = "Divy a bill";
     const String bubble2 = "View previous receipts";
     //ScreenWidth
-    double screenWidth = MediaQuery.of(context).size.width * 0.3;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width * 0.3;
     const double paddingRight = 60;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .inversePrimary,
         title: Text("Divy"),
       ),
       body: Container(
@@ -65,10 +80,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: BorderRadius.all(Radius.circular(paddingRight)),
                 ),
                 child: Container(
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: paddingRight),
-                      child: Text(bubble1),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, '/Scanner');
+                    },
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: paddingRight),
+                        child: Text(bubble1),
+                      ),
                     ),
                   ),
                 ),
@@ -79,13 +100,20 @@ class _MyHomePageState extends State<MyHomePage> {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.blue,
-                  borderRadius: BorderRadius.all(Radius.circular(paddingRight)),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(paddingRight)),
                 ),
-                child: Container(
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: paddingRight),
-                      child: Text(bubble2),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/ReceiptList');
+                  },
+                  child: Container(
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: paddingRight),
+                        child: Text(bubble2),
+                      ),
                     ),
                   ),
                 ),
