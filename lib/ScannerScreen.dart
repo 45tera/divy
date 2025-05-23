@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ScannerScreen extends StatefulWidget {
   @override
@@ -20,7 +20,12 @@ class ScannerScreenState extends State<ScannerScreen> {
     if (selectedImage == null) return;
 
     setState(() {
-      imageToOCR = Image.network(selectedImage.path); // For web
+      if (kIsWeb) { // For web
+        imageToOCR = Image.network(selectedImage.path);
+      }
+      else { // For mobile
+        imageToOCR = Image.file(File(selectedImage.path));
+      }
     });
   }
 
@@ -32,13 +37,25 @@ class ScannerScreenState extends State<ScannerScreen> {
     if (selectedPhoto == null) return null;
 
     setState(() {
-      //imageToOCR = XFile(selectedPhoto!.path);
-      imageToOCR = Image.network(selectedPhoto.path);
-    });
+
+      if (kIsWeb){
+        imageToOCR = Image.network(selectedPhoto.path);
+
+      } else{
+        imageToOCR = Image.file(File(selectedPhoto.path));
+      }
+       });
   }
 
   @override
   Widget build(BuildContext context) {
+    //ScreenWidth
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width * 0.3;
+    double paddingHorizontal = screenWidth /4;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Scan receipt')),
       body: Container(
@@ -52,10 +69,7 @@ class ScannerScreenState extends State<ScannerScreen> {
                 pickImage();
               },
             ),
-            Center(
-              child:
-                  imageToOCR ?? Text('No image selected'),
-            ),
+            Padding(padding:EdgeInsets.symmetric(horizontal: paddingHorizontal),child: Center(child: imageToOCR ?? Text('No image selected'))),
           ],
         ),
       ),
